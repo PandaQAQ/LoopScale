@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoopScaleView">
+        <!--可视范围内显示的大刻度数-->
+        <attr name="maxShowItem" format="integer"/>
+        <!--最大刻度值-->
+        <attr name="maxValue" format="integer"/>
+        <!--一个刻度表示的值的大小-->
+        <attr name="oneItemValue" format="integer"/>
+        <!--指针颜色-->
+        <attr name="cursorColor" format="color"/>
+        <!--刻度文字颜色-->
+        <attr name="scaleTextColor" format="color"/>
+        <!--指针图标，颜色和这个属性二选一-->
+        <attr name="cursorMap" format="reference"/>
+    </declare-styleable>
+</resources>
