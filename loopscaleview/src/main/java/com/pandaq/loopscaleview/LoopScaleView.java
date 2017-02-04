@@ -20,9 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
 /**
  * Created by PandaQ on 2017/1/13.
  * email : 767807368@qq.com
@@ -31,6 +28,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class LoopScaleView extends View {
     private final static String TAG = "com.pandaq.loopscale";
+    private OnValueChangeListener mOnValueChangeListener;
     //画底线的画笔
     private Paint paint;
     //尺子控件总宽度
@@ -70,7 +68,7 @@ public class LoopScaleView extends View {
     //处理惯性滚动
     private Scroller mScroller;
     //惯性滑动时用于查询位置状态
-    private static ScheduledExecutorService mScheduler;
+//    private static ScheduledExecutorService mScheduler;
     //scroller 滚动的最大值
     private int maxX;
     //scroller 滚动的最小值
@@ -99,7 +97,7 @@ public class LoopScaleView extends View {
         }
         ta.recycle();
         mScroller = new Scroller(context);
-        mScheduler = Executors.newScheduledThreadPool(2);
+//        mScheduler = Executors.newScheduledThreadPool(2);
         mGestureDetector = new GestureDetector(context, gestureListener);
     }
 
@@ -247,28 +245,26 @@ public class LoopScaleView extends View {
         }
     };
 
-    /**
-     * 实时通知惯性滚动的状态
-     */
-    private Runnable locationChecker = new Runnable() {
-        @Override
-        public void run() {
-            System.out.println("别闹执行任务呢");
-            if (!mScroller.isFinished()) { //如果滑动尚未结束，则不断得到新的位置并更新视图
-                System.out.println("可以执行任务");
-                mScroller.computeScrollOffset();
-                int currX = mScroller.getCurrX();
-                float delta = currLocation - currX;
-                currLocation = currX;
-                if (delta != 0) {
-                    System.out.println(delta);
-                    scrollView(delta);
-                }
-            } else {
-                mScheduler.shutdownNow();
-            }
-        }
-    };
+//    /**
+//     * 实时通知惯性滚动的状态
+//     */
+//    private Runnable locationChecker = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (!mScroller.isFinished()) { //如果滑动尚未结束，则不断得到新的位置并更新视图
+//                mScroller.computeScrollOffset();
+//                int currX = mScroller.getCurrX();
+//                float delta = currLocation - currX;
+//                currLocation = currX;
+//                if (delta != 0) {
+//                    System.out.println(delta);
+//                    scrollView(delta);
+//                }
+//            } else {
+//                mScheduler.shutdownNow();
+//            }
+//        }
+//    };
 
 
     /**
@@ -362,6 +358,8 @@ public class LoopScaleView extends View {
      */
     public void setCurrLocation(float currLocation) {
         this.currLocation = currLocation;
+        int currentItem = (int) (currLocation / scaleDistance);
+        mOnValueChangeListener.OnValueChange(currentItem);
         invalidate();
     }
 
@@ -463,4 +461,12 @@ public class LoopScaleView extends View {
             }
         }
     };
+
+    public void setOnValueChangeListener(OnValueChangeListener onValueChangeListener) {
+        mOnValueChangeListener = onValueChangeListener;
+    }
+
+    public interface OnValueChangeListener {
+        void OnValueChange(int newValue);
+    }
 }
