@@ -106,7 +106,7 @@ public class LoopScaleView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         viewHeight = MeasureSpec.getSize(heightMeasureSpec);
         //一个小刻度的宽度（十进制，每5个小刻度为一个大刻度）
-        scaleDistance = (getMeasuredWidth() / (showItemSize * 5));
+        scaleDistance = getMeasuredWidth() / (showItemSize * 5);
         //尺子长度总的个数*一个的宽度
         viewWidth = maxValue / oneItemValue * scaleDistance;
         maxX = getItemsCount() * scaleDistance;
@@ -185,10 +185,12 @@ public class LoopScaleView extends View {
             paintText.setColor(scaleTextColor);
             paintText.setTextSize(scaleTextSize);
             if (type < 0) {
-                value = maxValue - value;
+                value = (maxValue / oneItemValue - value) * oneItemValue;//按每一个刻度代表的值进行缩放
                 if (value == maxValue) { //左闭右开区间，不取最大值
                     value = 0;
                 }
+            } else {
+                value = value * oneItemValue;
             }
             String drawStr = String.valueOf(value);
             Rect bounds = new Rect();
@@ -283,13 +285,17 @@ public class LoopScaleView extends View {
      */
     private void getIntegerPosition() {
         int currentItem = (int) (currLocation / scaleDistance);
-        float fraction = currLocation - currentItem * currentItem;
-        if (fraction > 0.5 * scaleDistance) {
-            currLocation = (currentItem + 1) * scaleDistance;
+        float fraction = currLocation - currentItem * scaleDistance;
+        if (Math.abs(fraction) > 0.5 * scaleDistance) {
+            if (fraction < 0) {
+                currLocation = (currentItem - 1) * scaleDistance;
+            } else {
+                currLocation = (currentItem + 1) * scaleDistance;
+            }
         } else {
             currLocation = currentItem * scaleDistance;
         }
-        invalidate();
+        setCurrLocation(currLocation);
     }
 
     /**
@@ -358,8 +364,13 @@ public class LoopScaleView extends View {
      */
     public void setCurrLocation(float currLocation) {
         this.currLocation = currLocation;
-        int currentItem = (int) (currLocation / scaleDistance);
-        mOnValueChangeListener.OnValueChange(currentItem);
+        int currentItem = (int) (currLocation / scaleDistance) * oneItemValue;
+        if (mOnValueChangeListener != null) {
+            if (currentItem < 0) {
+                currentItem = maxValue + currentItem;
+            }
+            mOnValueChangeListener.OnValueChange(currentItem);
+        }
         invalidate();
     }
 

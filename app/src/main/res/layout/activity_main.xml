@@ -14,7 +14,7 @@
     tools:context="com.pandaq.sample.MainActivity">
 
     <TextView
-        android:id="@+id/tv_value"
+        android:id="@+id/tv_value1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -30,6 +30,13 @@
         app:cursorMap="@mipmap/ic_launcher"
         app:maxShowItem="6"/>
 
+    <TextView
+        android:id="@+id/tv_value2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"/>
+
     <com.pandaq.loopscaleview.LoopScaleView
         android:id="@+id/lsv_2"
         android:layout_width="match_parent"
@@ -39,6 +46,13 @@
         android:padding="8dp"
         app:cursorColor="@color/colorPrimary"
         app:maxShowItem="6"/>
+
+    <TextView
+        android:id="@+id/tv_value3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"/>
 
     <com.pandaq.loopscaleview.LoopScaleView
         android:id="@+id/lsv_3"
@@ -51,6 +65,13 @@
         app:maxShowItem="6"
         app:maxValue="100"
         app:scaleTextColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_value4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"/>
 
     <com.pandaq.loopscaleview.LoopScaleView
         android:id="@+id/lsv_4"
