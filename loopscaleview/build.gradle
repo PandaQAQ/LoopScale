@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'//添加
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 18
@@ -26,7 +26,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'
 }
 //添加
@@ -34,7 +34,7 @@ publish {
     userOrg = 'pandaq'
     groupId = 'com.pandaq'//jcenter上的路径
     artifactId = 'loopscale'//项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '1.0.1'//版本号
     desc = 'Oh hi, this is a loop scale view'//描述，不重要
     website = 'https://github.com/pandaqaq/LoopScale'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
     licences = ['Apache-2.0']

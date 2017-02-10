@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -175,8 +174,14 @@ public class LoopScaleView extends View {
     private void drawScale(Canvas canvas, int value, int type) {
         if (currLocation + showItemSize / 2 * 5 * scaleDistance >= viewWidth) {
             currLocation = -showItemSize / 2 * 5 * scaleDistance;
+            float speed = mScroller.getCurrVelocity();
+            mScroller.fling((int) currLocation, 0, (int) speed, 0, minX, maxX, 0, 0);
+            setNextMessage(0);
         } else if (currLocation - showItemSize / 2 * 5 * scaleDistance <= -viewWidth) {
             currLocation = showItemSize / 2 * 5 * scaleDistance;
+            float speed = mScroller.getCurrVelocity();
+            mScroller.fling((int) currLocation, 0, (int) speed, 0, minX, maxX, 0, 0);
+            setNextMessage(0);
         }
         float location = cursorLocation - currLocation + value * scaleDistance * type;
         if (value % 5 == 0) {
@@ -206,10 +211,8 @@ public class LoopScaleView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.i(TAG, "action_dpwn");
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i(TAG, "action_up");
                 //手指抬起是计算出当前滑到第几个位置
                 getIntegerPosition();
                 break;
@@ -234,10 +237,10 @@ public class LoopScaleView extends View {
         }
 
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            mScroller.fling((int) currLocation, 0, (int) (-velocityX / 1.5), 0, minX, maxX, 0, 0);
-//            //每100毫秒检查一次状态，使用Scheduler 有BUG 暂时先用handler解决问题
-//            mScheduler.scheduleAtFixedRate(locationChecker, 100, 100, TimeUnit.MILLISECONDS);
-            setNextMessage(0);
+            if (!mScroller.computeScrollOffset()) {
+                mScroller.fling((int) currLocation, 0, (int) (-velocityX / 1.5), 0, minX, maxX, 0, 0);
+                setNextMessage(0);
+            }
             return true;
         }
 
@@ -246,28 +249,6 @@ public class LoopScaleView extends View {
             return super.onSingleTapUp(e);
         }
     };
-
-//    /**
-//     * 实时通知惯性滚动的状态
-//     */
-//    private Runnable locationChecker = new Runnable() {
-//        @Override
-//        public void run() {
-//            if (!mScroller.isFinished()) { //如果滑动尚未结束，则不断得到新的位置并更新视图
-//                mScroller.computeScrollOffset();
-//                int currX = mScroller.getCurrX();
-//                float delta = currLocation - currX;
-//                currLocation = currX;
-//                if (delta != 0) {
-//                    System.out.println(delta);
-//                    scrollView(delta);
-//                }
-//            } else {
-//                mScheduler.shutdownNow();
-//            }
-//        }
-//    };
-
 
     /**
      * 滑动View
@@ -463,7 +444,7 @@ public class LoopScaleView extends View {
             if (delta != 0) {
                 scrollView(delta);
             }
-            // 滚动还没有完成，到最后，完成手动
+            // 滚动还没有完成
             if (!mScroller.isFinished()) {
                 animationHandler.sendEmptyMessage(msg.what);
             } else {
