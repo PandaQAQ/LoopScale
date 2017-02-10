@@ -3,7 +3,8 @@ This is a loop scale view like this:
 
 ![sample][1]
 -------------------
-
+## FixBugs
+1.0.1 版本修复了 1.0.0 版本中快速滑动 value 更新出错的 bug
 ## import/引入
 
 **if your network is terrible，maybe you cannot download this lib**
