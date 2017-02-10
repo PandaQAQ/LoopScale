@@ -26,7 +26,7 @@ module's build.gradle (模块的build.gradle)
 
 ``` gradle
 dependencies {
-    compile 'com.pandaq:loopscale:1.0.0'
+    compile 'com.pandaq:loopscale:1.0.1'
 }
 ```
 
