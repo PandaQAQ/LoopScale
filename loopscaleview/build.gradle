@@ -31,7 +31,7 @@ dependencies {
 }
 //添加
 publish {
-    userOrg = 'pandaq'
+    userOrg = 'huxinyu'
     groupId = 'com.pandaq'//jcenter上的路径
     artifactId = 'loopscale'//项目名称
     publishVersion = '1.0.1'//版本号

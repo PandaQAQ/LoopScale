@@ -343,7 +343,7 @@ public class LoopScaleView extends View {
      *
      * @param currLocation 当前游标所在的值
      */
-    public void setCurrLocation(float currLocation) {
+    private void setCurrLocation(float currLocation) {
         this.currLocation = currLocation;
         int currentItem = (int) (currLocation / scaleDistance) * oneItemValue;
         if (mOnValueChangeListener != null) {
@@ -417,15 +417,15 @@ public class LoopScaleView extends View {
     /**
      * 设置当前刻度的位置
      *
-     * @param currLocation 当前刻度位置，小于0时取0 大于最大值时取最大值
+     * @param currValue 当前刻度位置，小于0时取0 大于最大值时取最大值
      */
-    public void setCurrLocation(int currLocation) {
+    public void setCurrentValue(int currValue) {
         if (currLocation < 0) {
             currLocation = 0;
         } else if (currLocation > maxValue) {
             currLocation = maxValue;
         }
-        this.currLocation = currLocation;
+        this.currLocation = currValue;
         invalidate();
     }
 
