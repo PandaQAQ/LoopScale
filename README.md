@@ -1,6 +1,6 @@
 # important（重要修改）
 maven 地址修改为：
-url "https://pandaq.bintray.com/maven"
+url  "http://dl.bintray.com/huxinyu/maven"
 ``` gradle
 allprojects {
     repositories {
