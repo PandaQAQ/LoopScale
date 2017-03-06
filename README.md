@@ -1,3 +1,16 @@
+# important（重要修改）
+maven 地址修改为：
+url "https://pandaq.bintray.com/maven"
+``` gradle
+allprojects {
+    repositories {
+        jcenter()
+        maven{
+            url  "http://dl.bintray.com/huxinyu/maven"
+        }
+    }
+}
+```
 # LoopScale
 This is a loop scale view like this:
 
@@ -16,7 +29,7 @@ allprojects {
     repositories {
         jcenter()
         maven{
-            url "https://pandaq.bintray.com/maven"
+            url  "http://dl.bintray.com/huxinyu/maven"
         }
     }
 }
